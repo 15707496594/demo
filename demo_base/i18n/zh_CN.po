@@ -74,3 +74,18 @@ msgstr "系统设置"
 #: model:ir.model,name:demo_base.model_demo_base_lookup_value
 msgid "Demo Base: Lookup Value"
 msgstr "Demo基础：快速编码值"
+
+#. module: demo_base
+#: sql_constraint:demo.base.lookup.type:0
+msgid "Lookup code cannot be duplicated!"
+msgstr "快速编码代码不能重复"
+
+#. module: demo_base
+#: sql_constraint:demo.base.lookup.value:0
+msgid "The same lookup's value code cannot be duplicated!"
+msgstr "同一快速编码的值的代码不能重复"
+
+#. module: demo_base
+#: sql_constraint:demo.base.lookup.value:0
+msgid "The same lookup's value name cannot be duplicated!"
+msgstr "同一快速编码的值的名称不能重复"

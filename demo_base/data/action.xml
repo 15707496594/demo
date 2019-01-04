@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="1">
+        <!--快速编码动作-->
         <record id="demo_base_lookup_type_action" model="ir.actions.act_window">
             <field name="name">Lookup</field>
             <field name="res_model">demo.base.lookup.type</field>

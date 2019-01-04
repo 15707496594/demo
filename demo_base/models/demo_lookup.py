@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import api, fields, models, _
+from odoo import fields, models
 
 
 class DemoBaseLookupType(models.Model):
@@ -16,6 +16,10 @@ class DemoBaseLookupType(models.Model):
     # 快速编码值
     value_ids = fields.One2many(comodel_name="demo.base.lookup.value", inverse_name="type_id", string="Lookup Value")
 
+    _sql_constraints = [
+        ('unique_code', 'unique(code)', "Lookup code cannot be duplicated!"),
+    ]
+
 
 class DemoBaseLookupValue(models.Model):
     _name = "demo.base.lookup.value"
@@ -28,3 +32,8 @@ class DemoBaseLookupValue(models.Model):
     name = fields.Char(string="Name", required=True, translate=True)
     # 描述
     description = fields.Char(string="Description", translate=True)
+
+    _sql_constraints = [
+        ('unique_code_type_id', 'unique(type_id, code)', "The same lookup's value code cannot be duplicated!"),
+        ('unique_name_type_id', 'unique(type_id, name)', "The same lookup's value name cannot be duplicated!"),
+    ]
