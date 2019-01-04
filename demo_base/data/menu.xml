@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <menuitem id="demo_base_sys_settings_menu"
+                  name="System Settings"
+                  sequence="300"
+                  groups="base.group_system"/>
+        <menuitem id="demo_base_lookup_type_menu"
+                  name="Lookup"
+                  parent="demo_base_sys_settings_menu"
+                  sequence="10"
+                  action="demo_base_lookup_type_action"
+                  groups="base.group_system"/>
+    </data>
+</odoo>
