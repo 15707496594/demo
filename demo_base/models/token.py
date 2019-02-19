@@ -15,11 +15,19 @@ class DemoBaseToken(models.Model):
 
     @api.multi
     def is_expired(self):
+        """
+        判断token是否过期
+        :return: True or False
+        """
         self.ensure_one()
         return fields.Datetime.now() > self.expired_time
 
     @api.multi
     def get_expires_in(self):
+        """
+        获取token剩余时间
+        :return:
+        """
         self.ensure_one()
         return self.expired_time - fields.Datetime.now()
 

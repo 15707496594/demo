@@ -60,13 +60,33 @@ class DemoBaseRestApi(http.Controller):
 
     @http.route(['/<string:db>/api/<string:model>/read'], type="json", auth="public", csrf=False, methods=['POST'])
     def read_record(self, **request_data):
+        """
+        url中<string:db>为db的名称，<string:model>为模型名称
+        标准查询接口，主要是调用search_read方法，根据json给search_read传相应参数
+        :param request_data:
+        example: {
+                    "fields": ["name", "type"],
+                    "offset": 0,
+                    "limit": 7,
+                    "order": "id",
+                    "domain": [
+                        {
+                            "field": "name",
+                            "operator": "ilike",
+                            "value": "data"
+                        }
+                    ]
+                }
+        :return: search_read的结果
+        """
+        # 鉴权
         db = request_data.get('db')
         auth_result = self._user_authentication()
         if not auth_result['success']:
             return self._rest_json_response({'error': auth_result['message']})
         else:
             login, password = auth_result['login'], auth_result['password']
-
+        # 根据json数据生成search_read的参数，返回结果
         try:
             request.session.authenticate(db, login, password)
             json_data = request.jsonrequest
@@ -82,13 +102,20 @@ class DemoBaseRestApi(http.Controller):
 
     @http.route(['/<string:db>/api/<string:model>/create'], type="json", auth="public", csrf=False, methods=['POST'])
     def create_record(self, **request_data):
+        """
+        url中<string:db>为db的名称，<string:model>为模型名称
+        标准创建接口，主要是调用create方法，把json传给create方法创建记录
+        :param request_data:
+        :return:
+        """
+        # 鉴权
         db = request_data.get('db')
         auth_result = self._user_authentication()
         if not auth_result['success']:
             return self._rest_json_response({'error': auth_result['message']})
         else:
             login, password = auth_result['login'], auth_result['password']
-
+        # 创建数据，返回数据的id
         try:
             request.session.authenticate(db, login, password)
             json_data = request.jsonrequest
@@ -100,13 +127,20 @@ class DemoBaseRestApi(http.Controller):
 
     @http.route(['/<string:db>/api/<string:model>/update'], type="json", auth="public", csrf=False, methods=['POST'])
     def update_record(self, **request_data):
+        """
+        url中<string:db>为db的名称，<string:model>为模型名称
+        标准更新接口，主要是调用write方法，把json传给write方法更新记录
+        :param request_data:
+        :return:
+        """
+        # 鉴权
         db = request_data.get('db')
         auth_result = self._user_authentication()
         if not auth_result['success']:
             return self._rest_json_response({'error': auth_result['message']})
         else:
             login, password = auth_result['login'], auth_result['password']
-
+        # 更新数据，返回write方法的结果
         try:
             request.session.authenticate(db, login, password)
             json_data = request.jsonrequest
@@ -118,13 +152,20 @@ class DemoBaseRestApi(http.Controller):
 
     @http.route(['/<string:db>/api/<string:model>/delete'], type="json", auth="public", csrf=False, methods=['POST'])
     def delete_record(self, **request_data):
+        """
+        url中<string:db>为db的名称，<string:model>为模型名称
+        标准删除接口，主要是调用unlink方法，根据json中的domain查询出相应的记录做删除
+        :param request_data:
+        :return:
+        """
+        # 鉴权
         db = request_data.get('db')
         auth_result = self._user_authentication()
         if not auth_result['success']:
             return self._rest_json_response({'error': auth_result['message']})
         else:
             login, password = auth_result['login'], auth_result['password']
-
+        # 删除记录，染回unlink的结果
         try:
             request.session.authenticate(db, login, password)
             json_data = request.jsonrequest
@@ -158,6 +199,11 @@ class DemoBaseRestApi(http.Controller):
         return token, expires_in
 
     def _get_domain(self, domain_list):
+        """
+        根据json中的domain生成能供search和search_read使用的domain
+        :param domain_list:
+        :return:
+        """
         domain = []
         if not domain_list:
             return domain
@@ -166,12 +212,21 @@ class DemoBaseRestApi(http.Controller):
         return domain
 
     def _rest_json_response(self, result):
+        """
+        格式化response，这里对应的修改了源码的_json_response，生成不带jsonrpc的json返回
+        :param result:
+        :return:
+        """
         return {
             'rest_api': True,
             'result': result
         }
 
     def _user_authentication(self):
+        """
+        根据请求中的token对该次请求进行鉴权，返回鉴权后的结果
+        :return:
+        """
         url_param_str = request.httprequest.query_string.decode()
         token = url_param_str.split('=')[-1]
         token_record = request.env['demo.base.token'].sudo().search([('token', '=', token)], limit=1)
