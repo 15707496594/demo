@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_demo_account_journal_account_manager,demo.account.journal.group_account_manager,demo_account.model_demo_account_journal,demo_account_group_account_manager,1,1,1,1

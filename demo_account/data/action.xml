@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!--分类账动作-->
+        <record id="demo_account_journal_action" model="ir.actions.act_window">
+            <field name="name">Journal</field>
+            <field name="res_model">demo.account.journal</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

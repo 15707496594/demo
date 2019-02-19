@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!--会计菜单-->
+        <menuitem id="demo_account_account_menu"
+                  name="Account"
+                  sequence="10"
+                  groups="demo_account_group_account_manager"/>
+        <!--配置菜单-->
+        <menuitem id="demo_account_setting_menu"
+                  name="Settings"
+                  parent="demo_account_account_menu"
+                  sequence="100"
+                  groups="demo_account_group_account_manager"/>
+        <!--分类账菜单-->
+        <menuitem id="demo_account_journal_menu"
+                  name="Journal"
+                  parent="demo_account_setting_menu"
+                  sequence="10"
+                  action="demo_account_journal_action"
+                  groups="demo_account_group_account_manager"/>
+    </data>
+</odoo>
